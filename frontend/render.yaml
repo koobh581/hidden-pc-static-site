@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: hidden-pc-frontend-site
+    runtime: static
+    rootDir: frontend
+    staticPublishPath: .
