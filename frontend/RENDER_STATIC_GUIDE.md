@@ -1,27 +1,17 @@
-# Render Static Site 배포 가이드
+# Hidden PC v1 Static Site 배포 가이드
 
-이 폴더는 **빌드 없는 순수 static 사이트**입니다.
+이 프로젝트는 `hidden-pc-v1.zip`을 기준으로 **frontend 폴더 내부에서 정적 사이트로 빌드**되도록 재구성했습니다.
 
-## Render 설정
-- **Service Type**: Static Site
-- **Root Directory**: `frontend`
-- **Build Command**: 비워둠
-- **Publish Directory**: `.`
+## Render Static Site 설정
+- Root Directory: `frontend`
+- Build Command: `npm install && npm run build`
+- Publish Directory: `dist`
 
-## 기존 DB / 이메일 서버 연결
-이 사이트의 상담 폼은 아래 기존 백엔드 API로 전송됩니다.
+## 환경변수
+- `VITE_CONTACT_API_URL=https://hiddenpc.onrender.com/api/contact`
 
-`https://hiddenpc.onrender.com/api/contact`
-
-즉:
-- DB 저장: 기존 PostgreSQL 서버 처리
-- 이메일 발송: 기존 메일 서버 처리
-
-## 폼 전송 필드
-- name
-- phone
-- email
-- region
-- inquiry_type
-- message
-- agreed
+## 유지되는 기능
+- 기존 랜딩페이지/홈페이지 구성 유지
+- 상담 신청 → 기존 백엔드 API 전송
+- 기존 DB 저장 유지
+- 기존 이메일 발송 유지

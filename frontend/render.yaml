@@ -1,7 +1,6 @@
 services:
-  - type: web
-    name: hidden-pc-modern-static
-    runtime: static
+  - type: static
+    name: hidden-pc-v1-static
     rootDir: frontend
-    buildCommand: ""
-    staticPublishPath: .
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
