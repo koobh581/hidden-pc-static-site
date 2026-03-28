@@ -73,13 +73,13 @@ export default function Footer() {
             <h4 className="text-sm font-semibold text-white mb-4">연락처</h4>
             <div className="space-y-3 text-sm text-gray-500">
               <p>
-                <span className="text-gray-400">전화:</span> 1866-1508
+                <span className="text-gray-400">전화:</span> 1588-0000
               </p>
               <p>
-                <span className="text-gray-400">이메일:</span> mofpartners@gmail.com
+                <span className="text-gray-400">이메일:</span> franchise@hiddenpc.co.kr
               </p>
               <p>
-                <span className="text-gray-400">주소:</span> 인천광역시 중구 서해대로 476, 2층
+                <span className="text-gray-400">주소:</span> 서울특별시 강남구
               </p>
               <p>
                 <span className="text-gray-400">상담시간:</span> 평일 10:00~18:00
