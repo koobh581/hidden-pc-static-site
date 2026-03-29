@@ -8,50 +8,18 @@ import { Phone, Mail, MapPin, Send, Clock, ArrowRight } from "lucide-react";
 export default function ContactSection() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
-  const [formData, setFormData] = useState({ name: "", phone: "", email: "", type: "", message: "" });
+  const [formData, setFormData] = useState({ name: "", phone: "", email: "", inquiry_type: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (submitting) return;
-
-    try {
-      setSubmitting(true);
-
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: formData.name,
-          phone: formData.phone,
-          email: formData.email,
-          region: "",
-          inquiry_type: formData.type,
-          message: formData.message,
-          agreed: true,
-        }),
-      });
-
-      const result = await response.json();
-
-      if (!response.ok || !result.ok) {
-        throw new Error(result.error || "상담 신청 처리 중 오류가 발생했습니다.");
-      }
-
-      setSubmitted(true);
-      setTimeout(() => setSubmitted(false), 3000);
-      setFormData({ name: "", phone: "", email: "", type: "", message: "" });
-    } catch (error) {
-      const message = error instanceof Error ? error.message : "상담 신청 처리 중 오류가 발생했습니다.";
-      alert(message);
-    } finally {
-      setSubmitting(false);
-    }
+    setSubmitted(true);
+    setTimeout(() => setSubmitted(false), 3000);
+    setFormData({ name: "", phone: "", email: "", inquiry_type: "", message: "" });
   };
 
   return (
@@ -98,6 +66,7 @@ export default function ContactSection() {
                       type="text" name="name" value={formData.name} onChange={handleChange}
                       placeholder="성명을 입력하세요"
                       className="w-full px-0 py-3 border-0 border-b-2 border-gray-200 focus:border-red-600 focus:outline-none font-medium text-black placeholder:text-gray-300 bg-transparent transition-colors"
+                      required
                     />
                   </div>
                   <div>
@@ -149,11 +118,10 @@ export default function ContactSection() {
 
                 <button
                   type="submit"
-                  disabled={submitting}
-                  className="w-full py-4 bg-red-600 text-white font-bold tracking-wider hover:bg-red-700 disabled:opacity-70 transition-all duration-300 flex items-center justify-center gap-2"
+                  className="w-full py-4 bg-red-600 text-white font-bold tracking-wider hover:bg-red-700 transition-all duration-300 flex items-center justify-center gap-2"
                 >
                   <Send className="w-4 h-4" />
-                  {submitting ? "접수 중..." : "상담 신청하기"}
+                  상담 신청하기
                 </button>
               </form>
             )}
