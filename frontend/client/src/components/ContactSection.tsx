@@ -10,8 +10,7 @@ const API_ENDPOINT = (import.meta as any).env?.VITE_CONTACT_API_URL || "https://
 export default function ContactSection() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
-  const [formData, setFormData] = useState({ name: "", phone: "", email: "", region: formData.region, type: "", message: "" });
-  const [agreed, setAgreed] = useState(false);
+  const [formData, setFormData] = useState({ name: "", phone: "", email: "", type: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
@@ -22,20 +21,16 @@ export default function ContactSection() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (submitting) return;
-    if (!agreed) {
-      alert("개인정보 수집 및 이용에 동의해주세요.");
-      return;
-    }
     setSubmitting(true);
     try {
       const payload = {
         name: formData.name,
         phone: formData.phone,
         email: formData.email,
-        region: formData.region,
+        region: "",
         inquiry_type: formData.type,
         message: formData.message,
-        agreed,
+        agreed: true,
       };
 
       const response = await fetch(API_ENDPOINT, {
@@ -54,8 +49,8 @@ export default function ContactSection() {
       }
 
       setSubmitted(true);
-      setFormData({ name: "", phone: "", email: "", region: "", type: "", message: "" });
-      setAgreed(false);
+      setTimeout(() => setSubmitted(false), 3000);
+      setFormData({ name: "", phone: "", email: "", type: "", message: "" });
     } catch (error) {
       alert(error instanceof Error ? error.message : "서버 연결 중 오류가 발생했습니다.");
     } finally {
@@ -95,8 +90,8 @@ export default function ContactSection() {
                 <div className="w-14 h-14 bg-red-600 flex items-center justify-center mb-5">
                   <Send className="w-7 h-7 text-white" />
                 </div>
-                <h3 className="text-xl font-black text-black mb-2">신청 완료!</h3>
-                <p className="text-gray-400 text-sm">창업 상담 신청이 정상적으로 접수되었습니다. 영업일 기준 1~2일 내에 전문 컨설턴트가 연락드리겠습니다.</p>
+                <h3 className="text-xl font-black text-black mb-2">상담 신청 완료!</h3>
+                <p className="text-gray-400 text-sm">빠른 시일 내에 연락드리겠습니다.</p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6">
@@ -121,23 +116,14 @@ export default function ContactSection() {
                   </div>
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-[10px] font-semibold text-gray-400 mb-2 tracking-wider uppercase">이메일</label>
-                    <input
-                      type="email" name="email" value={formData.email} onChange={handleChange}
-                      placeholder="example@email.com"
-                      className="w-full px-0 py-3 border-0 border-b-2 border-gray-200 focus:border-red-600 focus:outline-none font-medium text-black placeholder:text-gray-300 bg-transparent transition-colors"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-[10px] font-semibold text-gray-400 mb-2 tracking-wider uppercase">창업 희망 지역</label>
-                    <input
-                      type="text" name="region" value={formData.region} onChange={handleChange}
-                      placeholder="예: 인천 중구, 서울 강남"
-                      className="w-full px-0 py-3 border-0 border-b-2 border-gray-200 focus:border-red-600 focus:outline-none font-medium text-black placeholder:text-gray-300 bg-transparent transition-colors"
-                    />
-                  </div>
+                <div>
+                  <label className="block text-[10px] font-semibold text-gray-400 mb-2 tracking-wider uppercase">이메일</label>
+                  <input
+                    type="email" name="email" value={formData.email} onChange={handleChange}
+                    placeholder="example@email.com"
+                    className="w-full px-0 py-3 border-0 border-b-2 border-gray-200 focus:border-red-600 focus:outline-none font-medium text-black placeholder:text-gray-300 bg-transparent transition-colors"
+                    required
+                  />
                 </div>
 
                 <div>
@@ -148,10 +134,10 @@ export default function ContactSection() {
                     required
                   >
                     <option value="">선택하세요</option>
-                    <option value="신규 창업">신규 창업</option>
-                    <option value="리모델링 창업">리모델링 창업</option>
-                    <option value="인수 창업">인수 창업</option>
-                    <option value="상담 우선">상담 우선</option>
+                    <option value="franchise">창업 상담</option>
+                    <option value="visit">매장 방문 문의</option>
+                    <option value="event">이벤트 문의</option>
+                    <option value="other">기타 문의</option>
                   </select>
                 </div>
 
@@ -159,7 +145,7 @@ export default function ContactSection() {
                   <label className="block text-[10px] font-semibold text-gray-400 mb-2 tracking-wider uppercase">문의 내용</label>
                   <textarea
                     name="message" value={formData.message} onChange={handleChange}
-                    placeholder="궁금하신 사항을 자유롭게 작성해 주세요."
+                    placeholder="궁금한 점을 자유롭게 입력하세요"
                     rows={4}
                     className="w-full px-0 py-3 border-0 border-b-2 border-gray-200 focus:border-red-600 focus:outline-none font-medium text-black placeholder:text-gray-300 bg-transparent resize-none transition-colors"
                     required
