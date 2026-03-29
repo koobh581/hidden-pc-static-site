@@ -8,10 +8,12 @@ import FranchiseSection from "@/components/FranchiseSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import ScrollToTop from "@/components/ScrollToTop";
+import PromoPopup from "@/components/PromoPopup";
 
 export default function Home() {
   return (
     <div className="min-h-screen">
+      <PromoPopup />
       <Navbar />
       <HeroSection />
       <SpecsSection />
