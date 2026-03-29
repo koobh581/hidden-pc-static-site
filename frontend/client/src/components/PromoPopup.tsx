@@ -39,7 +39,7 @@ export default function PromoPopup() {
 
   return (
     <div className="fixed inset-0 z-[9999] flex items-start justify-center bg-black/75 px-3 py-4 md:px-6 md:py-8">
-      <div className="relative w-full max-w-[1180px] overflow-hidden rounded-none border border-white/20 bg-white shadow-2xl">
+      <div className="relative w-full max-w-[760px] overflow-hidden rounded-none border border-white/20 bg-white shadow-2xl">
         <button
           type="button"
           onClick={closePopup}
@@ -49,11 +49,11 @@ export default function PromoPopup() {
           <X className="h-5 w-5" />
         </button>
 
-        <div className="max-h-[calc(100vh-120px)] overflow-auto bg-white">
+        <div className="bg-white flex items-center justify-center p-4">
           <img
             src={imageSrc}
             alt="HIDDEN PC 지역별 그랜드 오픈 팝업"
-            className="block w-full h-auto"
+            className="w-full max-w-[720px] h-auto object-contain"
           />
         </div>
 
