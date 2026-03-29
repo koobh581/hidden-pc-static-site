@@ -10,7 +10,8 @@ const API_ENDPOINT = (import.meta as any).env?.VITE_CONTACT_API_URL || "https://
 export default function ContactSection() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
-  const [formData, setFormData] = useState({ name: "", phone: "", email: "", type: "", message: "" });
+  const [formData, setFormData] = useState({ name: "", phone: "", email: "", region: formData.region, type: "", message: "" });
+  const [agreed, setAgreed] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
@@ -21,16 +22,20 @@ export default function ContactSection() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (submitting) return;
+    if (!agreed) {
+      alert("개인정보 수집 및 이용에 동의해주세요.");
+      return;
+    }
     setSubmitting(true);
     try {
       const payload = {
         name: formData.name,
         phone: formData.phone,
         email: formData.email,
-        region: "",
+        region: formData.region,
         inquiry_type: formData.type,
         message: formData.message,
-        agreed: true,
+        agreed,
       };
 
       const response = await fetch(API_ENDPOINT, {
@@ -49,8 +54,8 @@ export default function ContactSection() {
       }
 
       setSubmitted(true);
-      setTimeout(() => setSubmitted(false), 3000);
-      setFormData({ name: "", phone: "", email: "", type: "", message: "" });
+      setFormData({ name: "", phone: "", email: "", region: "", type: "", message: "" });
+      setAgreed(false);
     } catch (error) {
       alert(error instanceof Error ? error.message : "서버 연결 중 오류가 발생했습니다.");
     } finally {
@@ -86,12 +91,22 @@ export default function ContactSection() {
             className="lg:col-span-3 border border-gray-200 p-8 md:p-10"
           >
             {submitted ? (
-              <div className="flex flex-col items-center justify-center h-full py-16">
-                <div className="w-14 h-14 bg-red-600 flex items-center justify-center mb-5">
-                  <Send className="w-7 h-7 text-white" />
+              <div className="flex flex-col items-center justify-center h-full py-16 text-center">
+                <div className="w-16 h-16 rounded-full border-4 border-emerald-400 flex items-center justify-center mb-6">
+                  <Send className="w-8 h-8 text-emerald-400" />
                 </div>
-                <h3 className="text-xl font-black text-black mb-2">상담 신청 완료!</h3>
-                <p className="text-gray-400 text-sm">빠른 시일 내에 연락드리겠습니다.</p>
+                <h3 className="text-3xl font-black text-black mb-3">신청 완료!</h3>
+                <p className="text-gray-500 text-base leading-relaxed">
+                  창업 상담 신청이 정상적으로 접수되었습니다.<br />
+                  영업일 기준 1~2일 내에 전문 컨설턴트가 연락드리겠습니다.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setSubmitted(false)}
+                  className="mt-8 px-8 py-3 bg-red-600 text-white font-bold hover:bg-red-700 transition-colors"
+                >
+                  추가 문의하기
+                </button>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6">
@@ -116,14 +131,23 @@ export default function ContactSection() {
                   </div>
                 </div>
 
-                <div>
-                  <label className="block text-[10px] font-semibold text-gray-400 mb-2 tracking-wider uppercase">이메일</label>
-                  <input
-                    type="email" name="email" value={formData.email} onChange={handleChange}
-                    placeholder="example@email.com"
-                    className="w-full px-0 py-3 border-0 border-b-2 border-gray-200 focus:border-red-600 focus:outline-none font-medium text-black placeholder:text-gray-300 bg-transparent transition-colors"
-                    required
-                  />
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-[10px] font-semibold text-gray-400 mb-2 tracking-wider uppercase">이메일</label>
+                    <input
+                      type="email" name="email" value={formData.email} onChange={handleChange}
+                      placeholder="email@example.com"
+                      className="w-full px-0 py-3 border-0 border-b-2 border-gray-200 focus:border-red-600 focus:outline-none font-medium text-black placeholder:text-gray-300 bg-transparent transition-colors"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-semibold text-gray-400 mb-2 tracking-wider uppercase">창업 희망 지역</label>
+                    <input
+                      type="text" name="region" value={formData.region} onChange={handleChange}
+                      placeholder="예: 인천 중구, 서울 강남"
+                      className="w-full px-0 py-3 border-0 border-b-2 border-gray-200 focus:border-red-600 focus:outline-none font-medium text-black placeholder:text-gray-300 bg-transparent transition-colors"
+                    />
+                  </div>
                 </div>
 
                 <div>
@@ -134,10 +158,10 @@ export default function ContactSection() {
                     required
                   >
                     <option value="">선택하세요</option>
-                    <option value="franchise">창업 상담</option>
-                    <option value="visit">매장 방문 문의</option>
-                    <option value="event">이벤트 문의</option>
-                    <option value="other">기타 문의</option>
+                    <option value="신규 창업">신규 창업</option>
+                    <option value="리모델링 창업">리모델링 창업</option>
+                    <option value="인수 창업">인수 창업</option>
+                    <option value="상담 우선">상담 우선</option>
                   </select>
                 </div>
 
@@ -145,19 +169,30 @@ export default function ContactSection() {
                   <label className="block text-[10px] font-semibold text-gray-400 mb-2 tracking-wider uppercase">문의 내용</label>
                   <textarea
                     name="message" value={formData.message} onChange={handleChange}
-                    placeholder="궁금한 점을 자유롭게 입력하세요"
+                    placeholder="궁금하신 사항을 자유롭게 작성해 주세요."
                     rows={4}
                     className="w-full px-0 py-3 border-0 border-b-2 border-gray-200 focus:border-red-600 focus:outline-none font-medium text-black placeholder:text-gray-300 bg-transparent resize-none transition-colors"
                     required
                   />
                 </div>
 
+                <label className="flex items-start gap-3 text-sm text-gray-500">
+                  <input
+                    type="checkbox"
+                    checked={agreed}
+                    onChange={(e) => setAgreed(e.target.checked)}
+                    className="mt-1 h-4 w-4 accent-red-600"
+                    required
+                  />
+                  <span>개인정보 수집 및 이용에 동의합니다. 수집된 정보는 창업 상담 목적으로만 사용됩니다.</span>
+                </label>
+
                 <button disabled={submitting}
                   type="submit"
-                  className="w-full py-4 bg-red-600 text-white font-bold tracking-wider hover:bg-red-700 transition-all duration-300 flex items-center justify-center gap-2"
+                  className="w-full py-4 bg-red-600 text-white font-bold tracking-wider hover:bg-red-700 transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-70"
                 >
                   <Send className="w-4 h-4" />
-                  상담 신청하기
+                  {submitting ? "전송 중..." : "무료 상담 신청하기"}
                 </button>
               </form>
             )}
