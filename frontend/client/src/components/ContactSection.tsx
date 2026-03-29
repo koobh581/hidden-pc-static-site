@@ -91,22 +91,12 @@ export default function ContactSection() {
             className="lg:col-span-3 border border-gray-200 p-8 md:p-10"
           >
             {submitted ? (
-              <div className="flex flex-col items-center justify-center h-full py-16 text-center">
-                <div className="w-16 h-16 rounded-full border-4 border-emerald-400 flex items-center justify-center mb-6">
-                  <Send className="w-8 h-8 text-emerald-400" />
+              <div className="flex flex-col items-center justify-center h-full py-16">
+                <div className="w-14 h-14 bg-red-600 flex items-center justify-center mb-5">
+                  <Send className="w-7 h-7 text-white" />
                 </div>
-                <h3 className="text-3xl font-black text-black mb-3">신청 완료!</h3>
-                <p className="text-gray-500 text-base leading-relaxed">
-                  창업 상담 신청이 정상적으로 접수되었습니다.<br />
-                  영업일 기준 1~2일 내에 전문 컨설턴트가 연락드리겠습니다.
-                </p>
-                <button
-                  type="button"
-                  onClick={() => setSubmitted(false)}
-                  className="mt-8 px-8 py-3 bg-red-600 text-white font-bold hover:bg-red-700 transition-colors"
-                >
-                  추가 문의하기
-                </button>
+                <h3 className="text-xl font-black text-black mb-2">신청 완료!</h3>
+                <p className="text-gray-400 text-sm">창업 상담 신청이 정상적으로 접수되었습니다. 영업일 기준 1~2일 내에 전문 컨설턴트가 연락드리겠습니다.</p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6">
@@ -136,7 +126,7 @@ export default function ContactSection() {
                     <label className="block text-[10px] font-semibold text-gray-400 mb-2 tracking-wider uppercase">이메일</label>
                     <input
                       type="email" name="email" value={formData.email} onChange={handleChange}
-                      placeholder="email@example.com"
+                      placeholder="example@email.com"
                       className="w-full px-0 py-3 border-0 border-b-2 border-gray-200 focus:border-red-600 focus:outline-none font-medium text-black placeholder:text-gray-300 bg-transparent transition-colors"
                     />
                   </div>
@@ -176,23 +166,12 @@ export default function ContactSection() {
                   />
                 </div>
 
-                <label className="flex items-start gap-3 text-sm text-gray-500">
-                  <input
-                    type="checkbox"
-                    checked={agreed}
-                    onChange={(e) => setAgreed(e.target.checked)}
-                    className="mt-1 h-4 w-4 accent-red-600"
-                    required
-                  />
-                  <span>개인정보 수집 및 이용에 동의합니다. 수집된 정보는 창업 상담 목적으로만 사용됩니다.</span>
-                </label>
-
                 <button disabled={submitting}
                   type="submit"
-                  className="w-full py-4 bg-red-600 text-white font-bold tracking-wider hover:bg-red-700 transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-70"
+                  className="w-full py-4 bg-red-600 text-white font-bold tracking-wider hover:bg-red-700 transition-all duration-300 flex items-center justify-center gap-2"
                 >
                   <Send className="w-4 h-4" />
-                  {submitting ? "전송 중..." : "무료 상담 신청하기"}
+                  상담 신청하기
                 </button>
               </form>
             )}

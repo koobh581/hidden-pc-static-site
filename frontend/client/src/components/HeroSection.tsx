@@ -100,7 +100,7 @@ export default function HeroSection() {
             href="#contact"
             className="group px-10 py-4 bg-red-600 text-white font-bold text-base tracking-wider hover:bg-red-700 transition-all duration-300 flex items-center gap-2"
           >
-            지금 바로 문의하기
+            지금 바로 방문하라
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </a>
           <a
