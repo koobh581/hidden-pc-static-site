@@ -5,16 +5,16 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 
-const INTERIOR1 = "https://d2xsxph8kpxj0f.cloudfront.net/310519663453599650/UizotXspeWC3Pd35AYLYR8/interior1_ecb21f4f.png";
-const INTERIOR2 = "https://d2xsxph8kpxj0f.cloudfront.net/310519663453599650/UizotXspeWC3Pd35AYLYR8/interior2_25d0874c.png";
-const FRANCHISE = "https://d2xsxph8kpxj0f.cloudfront.net/310519663453599650/UizotXspeWC3Pd35AYLYR8/franchise-concept-WvPWMS9v4UnWamVeAjGQzZ.webp";
-const HERO_BG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663453599650/UizotXspeWC3Pd35AYLYR8/hero-bg-XCbsXZdugkPcvAjUoFx8zJ.webp";
+const INTERIOR1 = "https://d2xsxph8kpxj0f.cloudfront.net/310519663453599650/UizotXspeWC3Pd35AYLYR8/interior-bright-2-Yp77hH8LGbpWPRwTQosgt6.webp";
+const INTERIOR2 = "https://d2xsxph8kpxj0f.cloudfront.net/310519663453599650/UizotXspeWC3Pd35AYLYR8/private-room-bright-j88ibbQGruBDGU6PMiXmFj.webp";
+const FRANCHISE = "https://d2xsxph8kpxj0f.cloudfront.net/310519663453599650/UizotXspeWC3Pd35AYLYR8/interior-bright-3-CfHX6KkFhzzatky9jVfX3M.webp";
+const HERO_BG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663453599650/UizotXspeWC3Pd35AYLYR8/interior-bright-1-k4iQFzsbozhfPcb2zxsxME.webp";
 
 const galleryItems = [
   { src: INTERIOR1, label: "프리미엄 게이밍 존", span: "sm:col-span-2 sm:row-span-2" },
-  { src: INTERIOR2, label: "오픈 좌석 구역", span: "" },
+  { src: INTERIOR2, label: "프라이밷 공간", span: "" },
   { src: FRANCHISE, label: "매장 외관", span: "" },
-  { src: HERO_BG, label: "전체 인테리어 뷰", span: "sm:col-span-2" },
+  { src: HERO_BG, label: "넓고 쾌적한 공간", span: "sm:col-span-2" },
 ];
 
 export default function InteriorSection() {
@@ -63,8 +63,8 @@ export default function InteriorSection() {
                   alt={item.label}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
-                {/* Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[rgba(5,5,15,0.9)] via-[rgba(5,5,15,0.2)] to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
+                {/* Overlay - 밝은 이미지 위 텍스트 가시성 보장 */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[rgba(5,5,15,0.95)] via-[rgba(5,5,15,0.35)] to-transparent opacity-70 group-hover:opacity-85 transition-opacity duration-500" />
                 {/* Neon border on hover */}
                 <div className="absolute inset-0 border border-transparent group-hover:border-purple-500/40 rounded-xl transition-all duration-500" />
                 {/* Label */}
@@ -72,7 +72,7 @@ export default function InteriorSection() {
                   <div className="text-xs text-purple-400 font-semibold tracking-wider uppercase mb-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     Hidden PC
                   </div>
-                  <div className="text-sm sm:text-base font-bold text-white">
+                  <div className="text-sm sm:text-base font-bold text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
                     {item.label}
                   </div>
                 </div>

@@ -6,8 +6,8 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Monitor, Cpu, Headphones, Armchair, Wifi, Volume2 } from "lucide-react";
 
-const GAMING_SETUP = "https://d2xsxph8kpxj0f.cloudfront.net/310519663453599650/UizotXspeWC3Pd35AYLYR8/gaming-setup-aawP3ZyAVGVNDCgCRpmSCM.webp";
-const INTERIOR1 = "https://d2xsxph8kpxj0f.cloudfront.net/310519663453599650/UizotXspeWC3Pd35AYLYR8/interior1_ecb21f4f.png";
+const GAMING_SETUP = "https://d2xsxph8kpxj0f.cloudfront.net/310519663453599650/UizotXspeWC3Pd35AYLYR8/gaming-setup-realistic-dvo3E5ACswuoCnCCmjfC9u.webp";
+const INTERIOR1 = "https://d2xsxph8kpxj0f.cloudfront.net/310519663453599650/UizotXspeWC3Pd35AYLYR8/premium-space-bright-mCkjT9LytYzK54PMvQwjMN.webp";
 
 const specs = [
   { icon: Monitor, label: "32인치 QHD 165Hz", desc: "고주사율 커브드 모니터" },
@@ -120,10 +120,10 @@ export default function FacilitiesSection() {
             alt="히든 피씨방 내부 전경"
             className="w-full h-64 sm:h-80 lg:h-96 object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[rgba(5,5,15,0.8)] via-transparent to-[rgba(5,5,15,0.3)]" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[rgba(5,5,15,0.9)] via-[rgba(5,5,15,0.25)] to-[rgba(5,5,15,0.15)]" />
           <div className="absolute bottom-6 left-6 sm:bottom-8 sm:left-8">
-            <div className="text-xs text-purple-400 font-semibold tracking-wider uppercase mb-1">Premium Interior</div>
-            <div className="text-xl sm:text-2xl font-bold text-white">넓고 쾌적한 프리미엄 공간</div>
+            <div className="text-xs text-purple-400 font-semibold tracking-wider uppercase mb-1 drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]">Premium Interior</div>
+            <div className="text-xl sm:text-2xl font-bold text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">넓고 쾌적한 프리미엄 공간</div>
           </div>
         </motion.div>
       </div>

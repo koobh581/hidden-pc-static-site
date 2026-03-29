@@ -1,7 +1,0 @@
-services:
-  - type: web
-    name: hidden-pc-v1-static-connected
-    runtime: static
-    rootDir: frontend
-    buildCommand: npm install && npm run build
-    staticPublishPath: dist
