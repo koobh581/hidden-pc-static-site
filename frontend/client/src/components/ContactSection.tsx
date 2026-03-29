@@ -5,21 +5,57 @@ import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { Phone, Mail, MapPin, Send, Clock, ArrowRight } from "lucide-react";
 
+const API_ENDPOINT = (import.meta as any).env?.VITE_CONTACT_API_URL || "https://hiddenpc.onrender.com/api/contact";
+
 export default function ContactSection() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
-  const [formData, setFormData] = useState({ name: "", phone: "", email: "", inquiry_type: "", message: "" });
+  const [formData, setFormData] = useState({ name: "", phone: "", email: "", type: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 3000);
-    setFormData({ name: "", phone: "", email: "", inquiry_type: "", message: "" });
+    if (submitting) return;
+    setSubmitting(true);
+    try {
+      const payload = {
+        name: formData.name,
+        phone: formData.phone,
+        email: formData.email,
+        region: "",
+        inquiry_type: formData.type,
+        message: formData.message,
+        agreed: true,
+      };
+
+      const response = await fetch(API_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      let data: any = {};
+      try {
+        data = await response.json();
+      } catch {}
+
+      if (!response.ok || !(data.ok ?? data.success ?? true)) {
+        throw new Error(data.error || "상담 신청 전송에 실패했습니다.");
+      }
+
+      setSubmitted(true);
+      setTimeout(() => setSubmitted(false), 3000);
+      setFormData({ name: "", phone: "", email: "", type: "", message: "" });
+    } catch (error) {
+      alert(error instanceof Error ? error.message : "서버 연결 중 오류가 발생했습니다.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -116,7 +152,7 @@ export default function ContactSection() {
                   />
                 </div>
 
-                <button
+                <button disabled={submitting}
                   type="submit"
                   className="w-full py-4 bg-red-600 text-white font-bold tracking-wider hover:bg-red-700 transition-all duration-300 flex items-center justify-center gap-2"
                 >
