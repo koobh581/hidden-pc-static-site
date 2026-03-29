@@ -57,8 +57,15 @@ export default function ContactSection() {
         name: formData.name,
         phone: formData.phone,
         email: formData.email,
+
         region: formData.region,
+        preferred_region: formData.region,
+        inquiry_region: formData.region,
+
+        type: formData.type,
         inquiry_type: formData.type,
+        inquiryType: formData.type,
+
         message: formData.message,
         agreed,
       };
